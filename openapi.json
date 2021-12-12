@@ -1,0 +1,756 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "resslab_tools",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Get Info",
+        "operationId": "root",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Info"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Connections",
+        "description": "Get paginated Connections",
+        "operationId": "get_connections",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Query",
+              "type": "string"
+            },
+            "name": "query",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Sort By",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "name": "sort_by",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Sort Desc",
+              "type": "array",
+              "items": {
+                "type": "boolean"
+              },
+              "default": []
+            },
+            "name": "sort_desc",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "minimum": 1.0,
+              "type": "integer",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "maximum": 100.0,
+              "minimum": 1.0,
+              "type": "integer",
+              "default": 50
+            },
+            "name": "size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_ConnectionModel_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections/counts": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Counts",
+        "description": "Get occurences count of field values",
+        "operationId": "get_counts",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ConnectionField"
+              }
+            },
+            "name": "fields",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Query",
+              "type": "string"
+            },
+            "name": "query",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Counts Connections Counts Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountModel"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections/range": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Range",
+        "description": "Get range of field",
+        "operationId": "get_range",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ConnectionNumberField"
+            },
+            "name": "field",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RangeModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections/{connection_id}/download": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Download",
+        "operationId": "get_download",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            },
+            "name": "connection_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections/{connection_id}/globals": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Globals",
+        "description": "Get global series from connection",
+        "operationId": "get_globals",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            },
+            "name": "connection_id",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "minimum": 0.0,
+              "type": "integer",
+              "default": 1024
+            },
+            "name": "size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Globals Connections  Connection Id  Globals Get",
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections/{connection_id}/globals/csv": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Global Csv",
+        "description": "Get global csv from connection",
+        "operationId": "get_global_csv",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            },
+            "name": "connection_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections/{connection_id}/panel-zones": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Panel Zones",
+        "description": "Get panel zone series from connection",
+        "operationId": "get_panel_zones",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            },
+            "name": "connection_id",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "minimum": 0.0,
+              "type": "integer",
+              "default": 1024
+            },
+            "name": "size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Panel Zones Connections  Connection Id  Panel Zones Get",
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connections/{connection_id}/panel-zones/csv": {
+      "get": {
+        "tags": [
+          "connections"
+        ],
+        "summary": "Get Panel Zones Csv",
+        "description": "Get panel zone csv from connection",
+        "operationId": "get_panel_zones_csv",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            },
+            "name": "connection_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConnectionField": {
+        "title": "ConnectionField",
+        "enum": [
+          "id",
+          "experimental_program",
+          "date",
+          "specimen_designation",
+          "northridge",
+          "specimen_type",
+          "slab",
+          "connection_type",
+          "section_b",
+          "d_b",
+          "steel_b",
+          "section_c",
+          "d_c",
+          "t_cf",
+          "lat",
+          "long",
+          "t_dp",
+          "n_dp",
+          "t_dp_tot"
+        ],
+        "description": "An enumeration."
+      },
+      "ConnectionModel": {
+        "title": "ConnectionModel",
+        "required": [
+          "id",
+          "experimental_program",
+          "date",
+          "specimen_designation",
+          "northridge",
+          "specimen_type",
+          "slab",
+          "connection_type",
+          "section_b",
+          "d_b",
+          "steel_b",
+          "section_c",
+          "d_c",
+          "t_cf",
+          "lat",
+          "long",
+          "t_dp",
+          "n_dp",
+          "t_dp_tot"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "experimental_program": {
+            "title": "Experimental Program",
+            "type": "string"
+          },
+          "date": {
+            "title": "Date",
+            "type": "integer"
+          },
+          "specimen_designation": {
+            "title": "Specimen Designation",
+            "type": "string"
+          },
+          "northridge": {
+            "title": "Northridge",
+            "type": "string"
+          },
+          "specimen_type": {
+            "title": "Specimen Type",
+            "type": "string"
+          },
+          "slab": {
+            "title": "Slab",
+            "type": "boolean"
+          },
+          "connection_type": {
+            "title": "Connection Type",
+            "type": "string"
+          },
+          "section_b": {
+            "title": "Section B",
+            "type": "string"
+          },
+          "d_b": {
+            "title": "D B",
+            "type": "number"
+          },
+          "steel_b": {
+            "title": "Steel B",
+            "type": "string"
+          },
+          "section_c": {
+            "title": "Section C",
+            "type": "string"
+          },
+          "d_c": {
+            "title": "D C",
+            "type": "number"
+          },
+          "t_cf": {
+            "title": "T Cf",
+            "type": "number"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "long": {
+            "title": "Long",
+            "type": "number"
+          },
+          "t_dp": {
+            "title": "T Dp",
+            "type": "number"
+          },
+          "n_dp": {
+            "title": "N Dp",
+            "type": "integer"
+          },
+          "t_dp_tot": {
+            "title": "T Dp Tot",
+            "type": "number"
+          }
+        },
+        "description": "Connection"
+      },
+      "ConnectionNumberField": {
+        "title": "ConnectionNumberField",
+        "enum": [
+          "date",
+          "d_b",
+          "d_c",
+          "t_cf",
+          "lat",
+          "long",
+          "t_dp",
+          "n_dp",
+          "t_dp_tot"
+        ],
+        "description": "An enumeration."
+      },
+      "CountModel": {
+        "title": "CountModel",
+        "required": [
+          "names",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "names": {
+            "title": "Names",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "value": {
+            "title": "Value",
+            "type": "integer"
+          }
+        },
+        "description": "Count"
+      },
+      "DownloadModel": {
+        "title": "DownloadModel",
+        "required": [
+          "global_csv",
+          "panel_zone_csv"
+        ],
+        "type": "object",
+        "properties": {
+          "global_csv": {
+            "title": "Global Csv",
+            "type": "string"
+          },
+          "panel_zone_csv": {
+            "title": "Panel Zone Csv",
+            "type": "string"
+          }
+        },
+        "description": "DownloadModel"
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "Info": {
+        "title": "Info",
+        "required": [
+          "name",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "description": "App Info"
+      },
+      "Page_ConnectionModel_": {
+        "title": "Page[ConnectionModel]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConnectionModel"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "RangeModel": {
+        "title": "RangeModel",
+        "required": [
+          "min",
+          "max"
+        ],
+        "type": "object",
+        "properties": {
+          "min": {
+            "title": "Min",
+            "type": "number"
+          },
+          "max": {
+            "title": "Max",
+            "type": "number"
+          }
+        },
+        "description": "Range"
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

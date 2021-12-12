@@ -1,0 +1,23 @@
+{
+  "connection": {
+    "id": "ID",
+    "experimental_program": "Experimental Program",
+    "date": "Date",
+    "specimen_designation": "Specimen Designation",
+    "northridge": "North Ridge",
+    "specimen_type": "Specimen Type",
+    "slab": "SLAB",
+    "connection_type": "Connection Type",
+    "section_b": "Beam Section",
+    "d_b": "Beam Depth",
+    "steel_b": " Steel Material",
+    "section_c": "Column Section",
+    "d_c": "Column Depth",
+    "t_cf": "Flange Thickness",
+    "t_dp": "Doubler Plates Thickness",
+    "n_dp": "Doubler Plates Number",
+    "t_dp_tot": "Doubler Plates Total",
+    "lon": "Longitude",
+    "lat": "Latitude"
+  }
+}

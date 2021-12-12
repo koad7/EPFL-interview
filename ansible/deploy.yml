@@ -1,0 +1,34 @@
+---
+- name: Deploy
+  hosts: resslab_tools
+  remote_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - name: Upgrade packages
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        upgrade: "yes"
+    - name: Git checkout
+      git:
+        repo: git@github.com:RESSLab-Team/resslab-tools.git
+        dest: /opt/resslab-tools
+        accept_hostkey: yes
+        version: develop
+    - name: Copy secrets
+      ansible.builtin.copy:
+        src: ../secrets
+        dest: /opt/resslab-tools
+    - name: Run Docker Compose
+      community.docker.docker_compose:
+        project_src: /opt/resslab-tools
+        build: yes
+        remove_orphans: yes
+    - name: Docker Prune
+      community.docker.docker_prune:
+        containers: yes
+        images: yes
+        networks: yes
+        volumes: yes
