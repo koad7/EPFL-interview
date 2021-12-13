@@ -11,7 +11,7 @@ Prerequisites:
 - [Poetry](https://python-poetry.org/)
 - [Node.js](https://nodejs.org/) 16.x
 - [Docker](https://www.docker.com/)
-  - [Docker Compose](https://docs.docker.com/compose/) 1.27.0+
+- [Docker Compose](https://docs.docker.com/compose/) 1.27.0+
 
 ### Secrets
 
