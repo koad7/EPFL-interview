@@ -9,6 +9,6 @@ test:
 
 upload-data:
 	poetry run dotenv -f ../secrets/.env run python data.py connection ../data/connections_located.csv
-	poetry run dotenv -f ../secrets/.env run python data.py connection ../data/connections_located.csv
+	poetry run dotenv -f ../secrets/.env run python data.py connection ../data/additional_connections_located
 	poetry run dotenv -f ../secrets/.env run python data.py connection-global ../data/Global/*.csv
 	poetry run dotenv -f ../secrets/.env run python data.py connection-panel-zone ../data/Panel_zone/*.csv
